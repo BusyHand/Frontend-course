@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+
+        #draggable {
+            width: 150px;
+            height: 100px;
+            background-color: #2196F3;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: move;
+            position: absolute;
+            user-select: none;
+        }
+
+        body {
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .mouse-trail {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: rgba(33, 150, 243, 0.7);
+            border-radius: 50%;
+            pointer-events: none;
+            transition: transform 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+<br>
+<br>
+9. (Вариант 1). Сделайте анимацию, отображающую след движения мыши по экрану.
+
+<script>
+    const trails = [];
+
+    const createTrail = (x, y) => {
+        const trail = document.createElement('div');
+        trail.className = 'mouse-trail';
+        trail.style.left = x + 'px';
+        trail.style.top = y + 'px';
+        document.body.appendChild(trail);
+        trails.push(trail);
+
+        setTimeout(() => {
+            trail.remove();
+            trails.splice(trails.indexOf(trail), 1);
+        }, 600);
+    };
+
+    document.addEventListener('mousemove', (e) => {
+        createTrail(e.clientX, e.clientY);
+    });
+</script>
+
+<br>
+<br>
+9. (Вариант 2) Создайте блок с текстом "Подвинь меня". Напишите код (DragDrop), который будет позволять перемещать
+созданный
+блок по
+экрану.
+<div id="draggable">Подвинь меня</div>
+
+<script>
+    const draggable = document.getElementById('draggable');
+
+    let offsetX, offsetY;
+
+    draggable.onmousedown = function (e) {
+        offsetX = e.clientX - draggable.getBoundingClientRect().left;
+        offsetY = e.clientY - draggable.getBoundingClientRect().top;
+
+        document.onmousemove = function (e) {
+            draggable.style.left = (e.clientX - offsetX) + 'px';
+            draggable.style.top = (e.clientY - offsetY) + 'px';
+        }
+
+        document.onmouseup = function () {
+            document.onmousemove = null;
+            document.onmouseup = null;
+        }
+    };
+
+    draggable.ondragstart = function () {
+        return false;
+    };
+</script>
+</body>
+</html>

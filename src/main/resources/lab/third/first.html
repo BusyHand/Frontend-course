@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Приветствие пользователя</title>
+</head>
+<body>
+<script>
+    window.onload = greetUser;
+
+    function greetUser() {
+        const lastName = prompt("Введите вашу Фамилию:");
+        const firstName = prompt("Введите ваше Имя:");
+        const patronymic = prompt("Введите ваше Отчество:");
+        const age = parseInt(prompt("Введите ваш возраст:"));
+
+        if (Number.isNaN(age)) {
+            alert("Incorrect age");
+            return;
+        }
+
+        let greeting;
+        if (age < 7) {
+            greeting = `Привет, ${firstName}!`;
+        } else if (age >= 7 && age <= 18) {
+            greeting = `Здравствуй, ${lastName}!`;
+        } else {
+            greeting = `Здравствуйте, ${firstName} ${patronymic}!`;
+        }
+        alert(greeting);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="text" id="input" placeholder="Input y value">
+<button onclick="handleButtonClick()">Calculate x / y</button>
+<script>
+
+    function handleButtonClick() {
+        const input = document.getElementById("input").value;
+        const weekIndex = parseFloat(input);
+
+        if (Number.isNaN(weekIndex) || weekIndex < 1 || weekIndex > 7) {
+            alert("Incorrect value");
+            return;
+        }
+
+        var dayOfWeekName = new Array();
+        dayOfWeekName[1] = "Понидельник";
+        dayOfWeekName[2] = "Вторник";
+        dayOfWeekName[3] = "Среда";
+        dayOfWeekName[4] = "Четверг";
+        dayOfWeekName[5] = "Пятница";
+        dayOfWeekName[6] = "Суббота";
+        dayOfWeekName[7] = "Воскресенье";
+
+        const result = dayOfWeekName[weekIndex];
+        const resultElement = document.createElement("p");
+        resultElement.textContent = result;
+        const button = document.querySelector("button");
+        button.insertAdjacentElement('afterend', resultElement);
+    }
+</script>
+</body>
+</html>

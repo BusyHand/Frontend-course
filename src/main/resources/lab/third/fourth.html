@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма ввода</title>
+</head>
+<body>
+<form id="myForm">
+    <input type="text" id="inputFirst" placeholder="Input x value" required>
+    <input type="text" id="inputSecond" placeholder="Input y value" required>
+    <input type="text" id="inputThird" placeholder="Input a value" required>
+    <input type="text" id="inputFourth" placeholder="Input b value" required>
+    <button type="submit">Отправить</button>
+</form>
+
+<div id="resultContainer"></div>
+
+<script>
+    document.getElementById("myForm").addEventListener("submit", function () {
+
+        const x = document.getElementById("inputFirst").value;
+        const y = document.getElementById("inputSecond").value;
+        const a = document.getElementById("inputThird").value;
+        const b = document.getElementById("inputFourth").value;
+
+        const result = `Вы ввели: x=${x}, y=${y}, a=${a}, b=${b}`;
+        const resultContainer = document.getElementById("resultContainer");
+        resultContainer.innerHTML = result;
+    });
+</script>
+</body>
+</html>

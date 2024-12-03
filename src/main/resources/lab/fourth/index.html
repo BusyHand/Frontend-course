@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show Structure</title>
+    <style>
+        #result {
+            white-space: pre;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+1. Напишите код, который выводит фигуры. Необходимый рисунок выберите по вашему варианту. Рисунок необходимо вывести в
+тело страницы.
+
+<input type="number" id="input" placeholder="Напишите число" min="0"/>
+<button onclick="handleButtonClick()">Show</button>
+<div id="result"></div>
+
+<script>
+    function handleButtonClick() {
+        const input = document.getElementById("input").value;
+        const n = parseInt(input, 10);
+
+        if (isNaN(n) || n < 0) {
+            alert("Не число либо меньше 0");
+            return;
+        }
+
+        const result = show(n);
+        document.getElementById("result").textContent = result;
+    }
+
+    function show(n) {
+        if (n <= 0) {
+            return "#";
+        }
+        const maxLength = n + 2;
+        let offset = 1;
+        let result = "";
+
+        result += " ".repeat(maxLength - offset++) + "#\n";
+        result += " ".repeat(maxLength - offset++) + "##\n";
+
+        for (let i = n - 1; i >= 0; i--) {
+            result += " ".repeat(maxLength - offset++) + "#";
+            result += "O".repeat(Math.max(0, n - i));
+            result += "#\n";
+        }
+
+        n--;
+
+        for (let i = 0; i < n; i++) {
+            result += " ".repeat(maxLength - --offset + 1) + "#";
+            result += "O".repeat(n - i);
+            result += "#\n";
+        }
+
+        return result + " ".repeat(maxLength - --offset + 1) + "##\n" +
+            " ".repeat(maxLength - --offset + 1) + "#";
+    }
+</script>
+<br>
+1. Напишите код, который выводит таблицу умножения размерности 10х10. После вывода матрицы, выведите alert с сообщением
+о завершении работы. Доработайте код так, чтобы матрица прекратилась печататься на 5Х6, после чего вывелся alert.
+Перетаскивать alert в тело цикла запрещено;
+
+<button onclick="showCorrect()">Показать корректную таблицу умножения</button>
+<button onclick="showInncorrect()">Показать не коретктную таблицу умножения</button>
+<div id="result2"></div>
+
+<script>
+    function showCorrect() {
+        const resultContainer = document.getElementById("result2");
+        resultContainer.innerHTML = "";
+
+        for (let i = 2; i < 11; i++) {
+            for (let j = 2; j < 11; j++) {
+                const line = `${i} * ${j} = ${i * j}<br>`;
+                resultContainer.innerHTML += line;
+            }
+        }
+        alert("Завершено");
+    }
+
+    function showInncorrect() {
+        const resultContainer = document.getElementById("result2");
+        resultContainer.innerHTML = "";
+
+        outer: for (let i = 2; i < 11; i++) {
+            for (let j = 2; j < 11; j++) {
+                if (i === 5 && j === 6) {
+                    break outer;
+                }
+                const line = `${i} * ${j} = ${i * j}<br>`;
+                resultContainer.innerHTML += line;
+            }
+        }
+        alert("Завершено");
+    }
+</script>
+<br>
+3. Напишите функцию, которая принимает массив любых целых чисел, которая возвращает истину, если все элементы четные,
+если
+бы хотя бы один элемент не четный, то false.
+
+<input type="text" id="numbers" placeholder="Введите числа через запятую">
+<button onclick="isAllEvenNumbers()">Проверить</button>
+<div id="result3"></div>
+
+<script>
+    function isAllEvenNumbers() {
+        const input = document.getElementById("numbers").value;
+        const numbers = input.split(",")
+            .map(inputNum => parseInt(inputNum.trim()));
+
+        const result = allEven(numbers);
+        document.getElementById("result3").textContent = result
+            ? "Все элементы четные."
+            : "Есть хотя бы один нечетный элемент.";
+    }
+
+    function allEven(numbers) {
+        for (let number of numbers) {
+            if (isNaN(number) || number === "") {
+                alert("Пожалуйста, введите только числа.");
+                return false;
+            }
+            if (number % 2 !== 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+</script>
+<!-- todo -->
+<br>
+4. У вас есть парк из нескольких грузовиков. Каждый из них полностью заправлен и может проехать 100 км. Как далеко с их
+помощью вы можете доставить определенный груз?
+<input type="number" id="truckCount" placeholder="Введите количество грузовиков">
+<input type="number" id="distance" placeholder="Введите расстояние">
+<button onclick="calculateMaxDistance()">Посчитать</button>
+<div id="result4.1"></div>
+
+<script>
+    function calculateMaxDistance() {
+        let truckCount = parseInt(document.getElementById("truckCount").value);
+        let distance = parseInt(document.getElementById("distance").value);
+
+        if (isNaN(truckCount) || truckCount <= 0 || isNaN(distance) || distance <= 0) {
+            alert("Пожалуйста, введите корректные значения");
+            return;
+        }
+
+        const fuelCapacity = 100;
+        let totalDistance = 0;
+
+        while (distance > 0) {
+            if (truckCount === 0) break;
+
+
+            if (totalDistance + distance <= fuelCapacity) {
+                totalDistance += distance;
+                break;
+            }
+
+
+            let fuelNeeded = Math.ceil(distance / fuelCapacity);
+
+            if (fuelNeeded > truckCount) {
+                distance -= fuelCapacity * truckCount;
+                totalDistance += fuelCapacity;
+                truckCount--;
+            } else {
+                totalDistance += distance;
+                break;
+            }
+        }
+
+        document.getElementById("result4.1").textContent = "Вы можете доставить груз на расстояние: " + totalDistance + " км.";
+    }
+</script>
+
+
+<br>
+5. Напишите программу, которая будет подсчитывать количество цифр «2», используемых в десятичной записи целых чисел от 0
+до числа введенного пользователем (включительно).
+<input type="number" id="maxNumber" placeholder="Введите число">
+<button onclick="countOfTwo()">Подсчитать</button>
+<div id="result4"></div>
+
+<script>
+    function countOfTwo() {
+        const input = document.getElementById("maxNumber").value;
+        const maxNumber = parseInt(input);
+        if (isNaN(maxNumber) || maxNumber <= 0) {
+            alert("Пожалуйста, введите число больше нуля");
+            return;
+        }
+        let resultCount = 0;
+        for (let i = 2; i <= maxNumber; i++) {
+            let number = i;
+            while (number > 0) {
+                let digit = number % 10;
+                if (digit === 2) {
+                    resultCount++;
+                }
+                number = Math.floor(number / 10);
+            }
+        }
+        document.getElementById("result4").textContent = "Количство цифр '2' = " + resultCount;
+    }
+
+</script>
+<br>
+<p>6. Напишите программу, определяющую, является ли одна строка перестановкой другой. Под перестановкой понимаем
+    любое изменение порядка символов. Регистр учитывается, пробелы являются существенными. Строки вводятся
+    пользователем.</p>
+<input type="text" id="firstString" placeholder="Введите первую строку">
+<input type="text" id="secondString" placeholder="Введите вторую строку">
+<button onclick="checkStrings()">Проверить</button>
+<p id="result5"></p>
+
+<script>
+    function checkStrings() {
+        const first = document.getElementById("firstString").value;
+        const second = document.getElementById("secondString").value;
+        const result = isTheSame(first, second);
+        document.getElementById("result5").textContent = result
+            ? "Строки равны по количеству символов"
+            : "Строки не равны";
+    }
+
+    function isTheSame(first, second) {
+        const firstMap = getMap(first);
+        const secondMap = getMap(second);
+
+        for (const [key, value] of firstMap) {
+            if (secondMap.get(key) !== value) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function getMap(str) {
+        const map = new Map();
+        for (const char of str) {
+            map.set(char, (map.get(char) || 0) + 1);
+        }
+        return map;
+    }
+
+
+</script>
+</body>
+</html>

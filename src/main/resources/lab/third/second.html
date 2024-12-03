@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="text" id="inputFirst" placeholder="Input x value">
+<input type="text" id="inputSecond" placeholder="Input y value">
+<button onclick="handleButtonClick()">Calculate x / y</button>
+
+<script>
+    function handleButtonClick() {
+        const inputX = document.getElementById("inputFirst").value;
+        const inputY = document.getElementById("inputSecond").value;
+        const x = parseFloat(inputX);
+        const y = parseFloat(inputY);
+
+        if (Number.isNaN(x) || Number.isNaN(y)) {
+            alert("Incorrect value");
+            return;
+        }
+
+        const result = x % y;
+        const resultElement = document.createElement("p");
+        resultElement.textContent = `${x} % ${y} = ${result}`;
+        const button = document.querySelector("button");
+        button.insertAdjacentElement('afterend', resultElement);
+    }
+</script>
+</body>
+</html>

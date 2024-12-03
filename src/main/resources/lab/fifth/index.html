@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таблица сотрудников</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<br>
+1. Написать функцию, которая принимает массив сотрудников, каждый сотрудник имеет имя и возраст ([{name: 'Иван', age:
+23},...]) и возвращает массив, где каждый элемент представляет из себя строку "Имя: Иван, возраст: 23".
+<input type="text" id="employeeInput" placeholder="Имя, возраст, пол, цвет (например: Иван, 30, M, Black)">
+<button id="addEmployee">Добавить сотрудника</button>
+<br>
+<br>
+2. Вам дан массив однотипных объектов. Напишите функцию, которая строит html таблицу на основе полученных данных. В
+качестве заголовка таблицы, используйте наименование свойств. В качестве данных, используйте их значения.
+<h2>Список сотрудников</h2>
+<ul id="employeeList"></ul>
+<div id="tableContainer"></div>
+<script>
+    let employees = [];
+
+    document.getElementById('addEmployee').onclick = function () {
+        let input = document.getElementById('employeeInput').value;
+        let [name, age, sex, color] = input.split(',').map(item => item.trim());
+        age = Number(age);
+
+        // Проверки на корректность данных
+        if (!name || !isNaN(name) || !isNaN(sex) || !isNaN(color) || isNaN(age) || age < 0) {
+            alert("Введите корректные данные: Имя, возраст (>= 0), пол и цвет (все должны быть текстом).");
+            return;
+        }
+
+        employees.push({name, age, sex, color});
+        updateEmployeeList();
+    };
+
+    function updateEmployeeList() {
+        let employeeList = document.getElementById('employeeList');
+        employeeList.innerHTML = '';
+        generateTable(employees);
+    }
+
+    function generateTable(data) {
+        const keys = Object.keys(data[0] || {});
+        let table = '<table><thead><tr>';
+        keys.forEach(key => {
+            table += `<th>${key}</th>`;
+        });
+        table += '</tr></thead><tbody>';
+
+        data.forEach(item => {
+            table += '<tr>';
+            keys.forEach(key => {
+                table += `<td>${item[key]}</td>`;
+            });
+            table += '</tr>';
+        });
+        table += '</tbody></table>';
+        document.getElementById('tableContainer').innerHTML = table;
+    }
+</script>
+<br>
+6. Дан массив однотипных объектов (задание 2). Также имеется объект, с данными для фильтрации. Наименования свойств в
+объекте фильтрации и объектах массива совпадают. Напишите функцию, которая принимает 2 параметра (массив, объект
+фильтрации) и возвращает новый массив, с уже отфильтрованными данными. (Фильтрация выполняется по всем полям, указанным
+в объекте фильтрации).
+
+7. Напишите решение задания 6, избегая циклов for и while. Использовать forEach также запрещено.
+<br>
+<h2>Фильтрация сотрудников</h2>
+<input type="text" id="filterInput" placeholder="Поле и значение (например: sex, M)">
+<button id="filterButton">Фильтровать</button>
+<ul id="filteredList"></ul>
+<script>
+    document.getElementById('filterButton').onclick = function () {
+        let filterInput = document.getElementById('filterInput').value;
+        let [field, value] = filterInput.split(',').map(item => item.trim());
+
+        if (!field || !value) {
+            alert("Введите корректные данные для фильтрации: поле, значение.");
+            return;
+        }
+
+        let valueToCompare = (field === 'age') ? Number(value) : value;
+
+        let filteredEmployees = employees.filter(emp => emp[field] == valueToCompare);
+        updateFilteredList(filteredEmployees);
+    };
+
+    function updateFilteredList(filteredEmployees) {
+        let filteredList = document.getElementById('filteredList');
+        filteredList.innerHTML = '';
+        if (filteredEmployees.length === 0) {
+            filteredList.textContent = "Нет сотрудников, соответствующих критериям.";
+            return;
+        }
+        filteredEmployees.forEach(employee => {
+            let li = document.createElement('li');
+            li.textContent = `${employee.name}, возраст: ${employee.age}, пол: ${employee.sex}, цвет: ${employee.color}`;
+            filteredList.appendChild(li);
+        });
+    }
+
+</script>
+<br>
+3. Дан массив целых чисел. Напишите функцию, которая вернет произведение всех его элементов. При написании функции циклы
+for, while а также метод forEach использовать запрещено.
+<input type="text" id="numberInput" placeholder="Например: 1,2,3,4,5">
+<button id="calculateButton">Вычислить произведение</button>
+<div id="result"></div>
+
+<script>
+    document.getElementById('calculateButton').onclick = function () {
+        let input = document.getElementById('numberInput').value;
+        let numbers = input.split(',')
+            .map(num => num.trim())
+            .filter(num => num !== '');
+        let invalidNumbers = [];
+
+        let validNumbers = numbers.filter(number => {
+            let num = Number(number);
+            if (Number.isNaN(num)) {
+                invalidNumbers.push(number);
+                return false;
+            }
+            return true;
+        }).map(Number);
+
+        if (invalidNumbers.length > 0) {
+            alert(`Некоторые элементы не являются числами: ${invalidNumbers.join(', ')}`);
+        }
+
+        let product = multiplyArray(validNumbers);
+        document.getElementById('result').textContent = `Произведение элементов: ${product}`;
+    };
+
+    function multiplyArray(arr) {
+        if (arr.length === 0) return 1;
+        return arr[0] * multiplyArray(arr.slice(1));
+    }
+
+</script>
+
+<br>
+4. Дан массив целых чисел. Напишите функцию, которая вернет новый массив, в котором каждый элемент будет являться суммой
+всех предыдущих элементов первоначального массива включая текущий. При написании функции циклы for, while а также метод
+forEach использовать запрещено.
+
+<h2>Введите массив целых чисел (через запятую):</h2>
+<input type="text" id="numberInput2" placeholder="Например: 1,2,3,4,5">
+<button id="calculateSumButton">Вычислить сумму</button>
+<div id="result2"></div>
+
+<script>
+    document.getElementById('calculateSumButton').onclick =
+        function () {
+            let input = document.getElementById('numberInput2').value;
+            let numbers = input.split(',')
+                .map(num => num.trim())
+                .filter(num => num !== '');
+            let invalidNumbers = [];
+
+            let validNumbers = numbers.filter(number => {
+                let num = Number(number);
+                if (Number.isNaN(num)) {
+                    invalidNumbers.push(number);
+                    return false;
+                }
+                return true;
+            }).map(Number);
+
+            if (invalidNumbers.length > 0) {
+                alert(`Некоторые элементы не являются числами: ${invalidNumbers.join(', ')}`);
+            }
+
+            let cumulativeSums = calculateCumulativeSums(validNumbers);
+            document.getElementById('result2').textContent = `Суммы всех предыдущих элементов: ${cumulativeSums.join(', ')}`;
+        };
+
+    function calculateCumulativeSums(arr, index = 0, sum = 0) {
+        if (index >= arr.length) return [];
+        sum += arr[index];
+        return [sum].concat(calculateCumulativeSums(arr, index + 1, sum));
+    }
+</script>
+
+<br>
+5. Напишите функцию range, принимающую два аргумента, начало и конец диапазона, и возвращающую массив, который содержит
+все числа из него, включая начальное и конечное. Дополните функцию range, чтобы она могла принимать необязательный
+третий аргумент – шаг для построения массива. Если он не задан, шаг равен единице. Вызов функции range(1, 10, 2) должен
+будет вернуть [1, 3, 5, 7, 9].
+<h2>Введите начало и конец диапазона (через запятую):</h2>
+<input type="text" id="numberInput3" placeholder="Например: 1,10,2">
+<button id="calculateButton3">Сгенерировать диапазон</button>
+<div id="result3"></div>
+
+<script>
+    document.getElementById('calculateButton3').onclick = function () {
+        let input = document.getElementById('numberInput3').value;
+        let numbers = input.split(',')
+            .map(num => num.trim())
+            .filter(num => num !== '');
+
+        if (numbers.length < 2 || numbers.length > 3) {
+            alert("Введите корректные данные: два или три числа, разделенные запятыми.");
+            return;
+        }
+
+        let start = Number(numbers[0]);
+        let end = Number(numbers[1]);
+        let step = numbers.length === 3 ? Number(numbers[2]) : 1;
+
+        if (Number.isNaN(start) || Number.isNaN(end) || (numbers.length === 3 && Number.isNaN(step))
+            || start > end || step <= 0) {
+            alert("Некоторые элементы не являются числами или Start < end или Step <= 0");
+            return;
+        }
+
+        let rangeArray = range(start, end, step);
+        document.getElementById('result3').textContent = `Диапазон: ${rangeArray.join(', ')}`;
+    };
+
+    function range(start, end, step = 1) {
+        let result = [];
+        if (step > 0 && start > end || step < 0 && start < end) {
+            return result;
+        }
+        for (let i = start; step > 0 ? i <= end : i >= end; i += step) {
+            result.push(i);
+        }
+        return result;
+    }
+
+</script>
+</body>
+</html>

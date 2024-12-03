@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+
+<p>Задание 1 </br>
+    Вариант 2: Создать страницу со скриптом, который бы средствами скрипта выводил cos(x), где x –
+    числовая переменная, которой присвоено некоторое значение на выбор в скрипте
+</p>
+<body>
+<input type="text" id="myInput" placeholder="Input x value">
+<button onclick="handleButtonClick()">Calculate cos(x)</button>
+
+<script>
+    function handleButtonClick() {
+        const input = document.getElementById("myInput").value;
+        const x = parseFloat(input);
+        if (Number.isNaN(x)) {
+            alert("Incorrect value");
+            return;
+        }
+        const result = Math.cos(x);
+        const resultElement = document.createElement("p");
+        resultElement.textContent = `cos(${x}) = ${result}`;
+        const button = document.querySelector("button");
+        button.insertAdjacentElement('afterend', resultElement);
+    }
+</script>
+
+
+<p>Задание 2 </br>
+    Вариант 2: Создать страницу со скриптом, которая выводила бы сообщение « Нажмите кнопку
+    для замены текста страницы» с кнопками «да» и «нет». В скрипте опишите тег <-button>, который
+    будет при нажатии будет запускать функцию, созданную средствами javascript, которая заменит текст, размещенный в
+    теге <-p><-p> на результат сложения двух переменных, которые объявлены в функции.
+</p>
+
+<p id="message">Нажмите кнопку для замены текста страницы</p>
+<button onclick="replaceText()">Да</button>
+<button onclick="cancel()">Нет</button>
+
+<script>
+    function replaceText() {
+        const num1 = getRandomIntInRange(0, 1000);
+        const num2 = getRandomIntInRange(0, 1000);
+        const sum = num1 + num2;
+        document.getElementById("message").textContent = `${num1} + ${num2} = ${sum}`;
+    }
+
+    function cancel() {
+        document.getElementById("message").textContent = "Нажмите кнопку для замены текста страницы";
+    }
+
+    function getRandomIntInRange(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+</script>
+
+
+<p>Задание 3 </br>
+    Вариант 2: Создать страницу со скриптом, в котором создается объект Холодильник с 4-мя
+    свойствами: цвет, марка, модель, цена. Вывести по нажатию кнопки все значения свойств на
+    экран.
+</p>
+
+<button onclick="displayFridgeInfo()">Показать/Скрыть информацию о холодильнике</button>
+<div id="infoContainer" style="display: none;"></div>
+
+<script>
+    const fridge = new Object();
+    fridge.color = "Белый";
+    fridge.mark = "Indesit";
+    fridge.model = "T1000";
+    fridge.price = 15990;
+
+    function displayFridgeInfo() {
+        const infoContainer = document.getElementById("infoContainer");
+        let infoText = '';
+        for (let key in fridge) {
+            infoText += `${key}: ${fridge[key]}<br>`;
+        }
+        if (infoContainer.style.display === "none") {
+            infoContainer.innerHTML = infoText;
+            infoContainer.style.display = "block";
+        } else {
+            infoContainer.style.display = "none";
+        }
+    }
+</script>
+
+
+</body>
+</html>

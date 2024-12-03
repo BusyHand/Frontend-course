@@ -1,0 +1,50 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: black; /* Фон черный */
+    font-family: Arial, sans-serif;
+}
+
+.calculator {
+    border: 2px solid rgba(255, 222, 7, 0.68); /* Желтая рамка для калькулятора */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.5); /* Желтое свечение */
+    background-color: black; /* Фон калькулятора черный */
+}
+
+#display {
+    width: 100%;
+    height: 40px;
+    font-size: 2em;
+    margin-bottom: 10px;
+    text-align: right;
+    padding: 5px;
+    border: 1px solid #FFC107; /* Желтая рамка для поля ввода */
+    border-radius: 5px;
+    background-color: black; /* Фон поля ввода черный */
+    color: #FFC107; /* Цвет текста желтый */
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.btn {
+    padding: 20px;
+    font-size: 1.5em;
+    border: none;
+    background-color: #FFA500; /* Фон кнопок золотисто-оранжевый */
+    color: black; /* Цвет текста кнопок черный */
+    border-radius: 50%; /* Круглые кнопки */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #FF8C00; /* Цвет кнопки при наведении (темно-оранжевый) */
+}

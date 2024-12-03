@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Задания</title>
+    <style>
+        .shape {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+1. Вывести кнопку и пустое текстовое поле. При нажатии на кнопку, текстовое поле заполняется текстом.
+<br>
+<br>
+2. Доработайте задание 1 так, чтобы при клике на кнопку, выводился alert с текстом:
+"Вы ввели «Содержимое текстового поля»" (Если поле заполнено);
+"Вы ничего не ввели" (Если текстовое поле пустое);
+<br>
+<br>
+3. Доработайте задание 1. Добавьте еще одну кнопку, нажатие на которую будет блокировать текстовое поле для
+редактирования.
+Когда поле заблокировано, текст на кнопке "Заблокировано", если поле активно "Разблокировано". Первоначальное состояние
+блокировки может быть задано как при помощи переключателя в ваше коде, так и при помощи атрибутов.
+<br>
+<br>
+4. Доработайте задание 1. Добавьте еще одну кнопку, нажатие на которую будет скрывать содержимое текстового поля от
+пользователя. Когда содержимое скрыто, текст на кнопке "Скрыто", в противном случае - "Доступно".
+<br>
+<br>
+5. Доработайте задание 1. Добавьте еще одну кнопку, нажатие на которую будет скрывать само текстовое поле от
+пользователя. Когда поле скрыто, текст на кнопке "Показать поле", в противном случае - "Скрыть поле".
+Первоначальное состояние видимости поля может быть задано как при помощи переключателя в ваше коде, так и при помощи
+атрибутов.
+<br>
+<br>
+<input type="text" id="textInput" placeholder="Введите текст"/>
+<button id="submitButton">Заполнить текст</button>
+<button id="toggleEditButton">Разблокировано</button>
+<button id="toggleVisibilityButton">Доступно</button>
+<button id="toggleFieldButton">Скрыть поле</button>
+<script>
+    document.getElementById('submitButton').onclick = function () {
+        const input = document.getElementById('textInput');
+        if (input.value) {
+            alert(`Вы ввели «${input.value}»`);
+        } else {
+            alert("Вы ничего не ввели");
+        }
+        input.value = "Текст заполнен!";
+    };
+
+    let isBlock = false;
+    document.getElementById('toggleEditButton').onclick = function () {
+        const input = document.getElementById('textInput');
+        input.disabled = isBlock;
+        isBlock = !isBlock;
+        this.textContent = isBlock
+            ? "Разблокировано"
+            : "Заблокировано";
+    };
+
+
+    let isVisible = true;
+    let lastInputValue = "";
+    let firstTime = true;
+
+    document.getElementById('toggleVisibilityButton').onclick = function () {
+        const input = document.getElementById('textInput');
+        if (firstTime) {
+            lastInputValue = input.value;
+            firstTime = false;
+        }
+        if (isVisible) {
+            lastInputValue = input.value;
+        }
+        input.value = isVisible ? "******" : lastInputValue;
+        this.textContent = isVisible ? "Скрыто" : "Доступно";
+        isVisible = !isVisible;
+    };
+
+
+    let isFieldVisible = true;
+
+    document.getElementById('toggleFieldButton').onclick = function () {
+        const input = document.getElementById('textInput');
+        isFieldVisible = !isFieldVisible;
+        input.style.display = isFieldVisible ? "inline-block" : "none";
+        this.textContent = isFieldVisible ? "Скрыть поле" : "Показать поле";
+    };
+</script>
+
+<br>
+<br>
+6. Вывести любую фигуру (круг, квадрат) красного цвета. При наведении на нее, цвет фигуры изменяется на зеленый. После
+того, как курсор мыши будет уведен от фигуры, ее цвет снова становится красным. Изменение цвета фигуры реализовать при
+помощи JavaScript.
+<div class="shape"></div>
+
+<script>
+    const shape = document.querySelector('.shape');
+
+    shape.onmouseover = function () {
+        this.style.backgroundColor = 'green';
+    };
+
+    shape.onmouseout = function () {
+        this.style.backgroundColor = 'red';
+    };
+</script>
+
+<br>
+<br>
+7. Вывести несколько фигур (круг, квадрат) красного цвета. При клике на любую фигуру, она становится зеленой. Повторный
+клик снова делает фигуру красной. Если фигура стала зеленой, другие зеленые фигуры должны стать красными. Напишите код
+так, чтобы количество фигур не имело значения.
+<div class="shape"></div>
+<div class="shape"></div>
+<div class="shape"></div>
+
+<script>
+    const shapes = document.querySelectorAll('.shape');
+
+    shapes.forEach(shape =>
+        shape.onclick = function () {
+            shapes.forEach(s => s.style.backgroundColor = 'red');
+            this.style.backgroundColor = 'green';
+
+        });
+</script>
+
+8. Выведите текстовое поле. Дополните его так, чтобы при вводе текста, под ним появлялся список возможных вариантов
+дополнения. У вас есть массив возможных вариантов, необходимо показывать те, которые содержат в себе введенный текст.
+Клик на предложенный вариант, содержимое текстового поля меняется на него.
+<input type="text" id="autocompleteInput" placeholder="Введите текст"/>
+<ul id="suggestions"></ul>
+
+<script>
+    const options = ["apple", "banana", "grape", "orange", "watermelon"];
+
+    document.getElementById('autocompleteInput').oninput = function () {
+        const input = this.value.toLowerCase();
+        const suggestions = options.filter(option => option.includes(input));
+
+        const suggestionsList = document.getElementById('suggestions');
+        suggestionsList.innerHTML = '';
+        suggestions.forEach(suggestion => {
+            const li = document.createElement('li');
+            li.textContent = suggestion;
+            li.onclick = () => {
+                document.getElementById('autocompleteInput').value = suggestion;
+                suggestionsList.innerHTML = '';
+            };
+            suggestionsList.appendChild(li);
+        });
+    };
+</script>
+</body>
+</html>
