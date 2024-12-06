@@ -34,6 +34,7 @@ function direction(event) {
     else if (event.keyCode === 38 && dir !== "down") dir = "up";
     else if (event.keyCode === 39 && dir !== "left") dir = "right";
     else if (event.keyCode === 40 && dir !== "up") dir = "down";
+    lastChange = performance.now();
 }
 
 function eatTail(head, arr) {

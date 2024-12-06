@@ -141,45 +141,23 @@
 4. У вас есть парк из нескольких грузовиков. Каждый из них полностью заправлен и может проехать 100 км. Как далеко с их
 помощью вы можете доставить определенный груз?
 <input type="number" id="truckCount" placeholder="Введите количество грузовиков">
-<input type="number" id="distance" placeholder="Введите расстояние">
 <button onclick="calculateMaxDistance()">Посчитать</button>
 <div id="result4.1"></div>
 
 <script>
     function calculateMaxDistance() {
         let truckCount = parseInt(document.getElementById("truckCount").value);
-        let distance = parseInt(document.getElementById("distance").value);
 
-        if (isNaN(truckCount) || truckCount <= 0 || isNaN(distance) || distance <= 0) {
+        if (isNaN(truckCount) || truckCount <= 0) {
             alert("Пожалуйста, введите корректные значения");
             return;
         }
-
-        const fuelCapacity = 100;
-        let totalDistance = 0;
-
-        while (distance > 0) {
-            if (truckCount === 0) break;
-
-
-            if (totalDistance + distance <= fuelCapacity) {
-                totalDistance += distance;
-                break;
-            }
-
-
-            let fuelNeeded = Math.ceil(distance / fuelCapacity);
-
-            if (fuelNeeded > truckCount) {
-                distance -= fuelCapacity * truckCount;
-                totalDistance += fuelCapacity;
-                truckCount--;
-            } else {
-                totalDistance += distance;
-                break;
-            }
+        let sum = 0;
+        for (let i = 1; i <= truckCount; i++) {
+            sum += 1 / i;
         }
 
+        let totalDistance = 100 * sum;
         document.getElementById("result4.1").textContent = "Вы можете доставить груз на расстояние: " + totalDistance + " км.";
     }
 </script>
